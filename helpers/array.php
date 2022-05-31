@@ -1,17 +1,19 @@
 <?php
 
-namespace Bokad\Helpers\Array;
-
-function array_map_assoc(callable $callback, array $array): array
-{
-    $return = [];
-    foreach ($array as $k => $v) {
-        $return[] = $callback($k, $v);
+if (!function_exists('array_map_assoc')) {
+    function array_map_assoc(callable $callback, array $array): array
+    {
+        $return = [];
+        foreach ($array as $k => $v) {
+            $return[] = $callback($k, $v);
+        }
+        return $return;
     }
-    return $return;
 }
 
-function styleFromArray(array $style): string
-{
-    return 'style="' . implode(';', array_map_assoc(fn ($k, $v) => "$k:$v", $style)) . '"';
+if (!function_exists('styleFromArray')) {
+    function styleFromArray(array $style): string
+    {
+        return 'style="' . implode(';', array_map_assoc(fn ($k, $v) => "$k:$v", $style)) . '"';
+    }
 }
