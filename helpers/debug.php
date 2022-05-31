@@ -33,23 +33,23 @@ if (!function_exists('pp')) {
     function pp(array $varsArray, int $displayDebugBacktrace = 0, ?string $tag = null, int $offset = 0, ?string $mode = null): void
     {
         $preStyle = [
-            'background' => '#181818',
-            'color' => '#8c8c8c',
+            'background' => Debug::getColorBack(),
+            'color' => Debug::getColorText(),
             'padding' => '1em',
             'white-space' => 'break-spaces',
-            'border' => 'dashed 1px teal',
+            'border' => 'dashed 1px ' . Debug::getColorHigh(),
         ];
 
         $hrStyle = [
             'border' => 'none',
-            'border-top' => 'dashed 1px #8c8c8c',
+            'border-top' => 'dashed 1px ' . Debug::getColorText(),
             'margin' => '2em 0',
         ];
 
         $tagStyle = [
             'display' => 'inline-block',
             'background' => 'teal',
-            'color' => '#181818',
+            'color' => Debug::getColorBack(),
             'padding' => '.5em',
             'font-size' => '1.1em',
         ];
@@ -127,7 +127,7 @@ if (!function_exists('pp')) {
             }
 
             if ($mode == 'html') {
-                echo '<span style="color:teal">';
+                echo '<span style="color:' . Debug::getColorHigh() . '">';
             }
 
             echo implode("\n", $display);
@@ -138,7 +138,7 @@ if (!function_exists('pp')) {
 
             switch ($mode) {
                 case 'html':
-                    echo '<hr ' . styleFromArray(array_merge($hrStyle, ['border-top' => 'dashed 1px teal'])) . '>';
+                    echo '<hr ' . styleFromArray(array_merge($hrStyle, ['border-top' => 'dashed 1px ' . Debug::getColorHigh()])) . '>';
                     break;
 
                 case 'text':

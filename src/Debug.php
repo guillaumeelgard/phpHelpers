@@ -5,11 +5,9 @@ namespace Bokad\Helpers;
 class Debug
 {
     private static string $defaultPostMode = 'html';
-
-    public static function getDefaultPostMode(): string
-    {
-        return self::$defaultPostMode;
-    }
+    private static string $colorHigh = '#00d3d3';
+    private static string $colorText = '#bfbfbf';
+    private static string $colorBack = '#181818';
 
     public static function setDefaultPostMode(string $mode): void
     {
@@ -18,6 +16,36 @@ class Debug
         }
 
         self::$defaultPostMode = $mode;
+    }
+
+    public static function getColorHigh(): string
+    {
+        return self::$colorHigh;
+    }
+
+    public static function setColorHigh(string $color): void
+    {
+        self::$colorHigh = $color;
+    }
+
+    public static function getColorText(): string
+    {
+        return self::$colorText;
+    }
+
+    public static function setColorText(string $color): void
+    {
+        self::$colorText = $color;
+    }
+
+    public static function getColorBack(): string
+    {
+        return self::$colorBack;
+    }
+
+    public static function setColorBack(string $color): void
+    {
+        self::$colorBack = $color;
     }
 
     public static function getDefaultMode(): string
