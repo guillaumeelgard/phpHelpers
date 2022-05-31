@@ -16,6 +16,9 @@
     "autoload": {
         "files": [
             "getHelpers.php"
-        ]
+        ],
+        "psr-4": {
+            "Bokad\\Helpers\\": "src/"
+        }
     }
 }
