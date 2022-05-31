@@ -1,0 +1,21 @@
+{
+    "name": "bokad/helpers",
+    "description": "Basic Helpers",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guillaume ELGARD",
+            "email": "hi@guillaumeelgard.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "files": [
+            "getHelpers.php"
+        ]
+    }
+}
