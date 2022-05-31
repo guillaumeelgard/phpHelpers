@@ -8,6 +8,9 @@ class Debug
     private static string $colorHigh = '#00d3d3';
     private static string $colorText = '#bfbfbf';
     private static string $colorBack = '#181818';
+    private static int $defaultDisplayDebugBacktracePP = 0;
+    private static int $defaultDisplayDebugBacktraceD = 1;
+    private static int $defaultDisplayDebugBacktraceDD = 2;
 
     public static function setDefaultPostMode(string $mode): void
     {
@@ -46,6 +49,48 @@ class Debug
     public static function setColorBack(string $color): void
     {
         self::$colorBack = $color;
+    }
+
+    public static function getDefaultDisplayDebugBacktracePP(): int
+    {
+        return self::$defaultDisplayDebugBacktracePP;
+    }
+
+    public static function setDefaultDisplayDebugBacktracePP(int $value): void
+    {
+        if (!in_array($value, [0, 1, 2])) {
+            throw new \Exception('Invalid value.');
+        }
+
+        self::$defaultDisplayDebugBacktracePP = $value;
+    }
+
+    public static function getDefaultDisplayDebugBacktraceD(): int
+    {
+        return self::$defaultDisplayDebugBacktraceD;
+    }
+
+    public static function setDefaultDisplayDebugBacktraceD(int $value): void
+    {
+        if (!in_array($value, [0, 1, 2])) {
+            throw new \Exception('Invalid value.');
+        }
+
+        self::$defaultDisplayDebugBacktraceD = $value;
+    }
+
+    public static function getDefaultDisplayDebugBacktraceDD(): int
+    {
+        return self::$defaultDisplayDebugBacktraceDD;
+    }
+
+    public static function setDefaultDisplayDebugBacktraceDD(int $value): void
+    {
+        if (!in_array($value, [0, 1, 2])) {
+            throw new \Exception('Invalid value.');
+        }
+
+        self::$defaultDisplayDebugBacktraceDD = $value;
     }
 
     public static function getDefaultMode(): string

@@ -30,8 +30,17 @@ if (!function_exists('explicit_var')) {
 }
 
 if (!function_exists('pp')) {
-    function pp(array $varsArray, int $displayDebugBacktrace = 0, ?string $tag = null, int $offset = 0, ?string $mode = null): void
-    {
+    function pp(
+        array $varsArray,
+        ?int $displayDebugBacktrace = null,
+        ?string $tag = null,
+        int $offset = 0,
+        ?string $mode = null,
+    ): void {
+        if (is_null($displayDebugBacktrace)) {
+            $displayDebugBacktrace = Debug::getDefaultDisplayDebugBacktracePP();
+        }
+
         $preStyle = [
             'background' => Debug::getColorBack(),
             'color' => Debug::getColorText(),
@@ -104,12 +113,20 @@ if (!function_exists('pp')) {
             $display = [];
             $db = debug_backtrace();
 
+            if (!isset($db[$offset])) {
+                throw new \Exception('Invalid offset');
+            }
+
             $display[] = $db[$offset]['file'] . ':' . $db[$offset]['line'];
             $display[] = '';
 
             switch ($displayDebugBacktrace) {
                 case 1:
-                    $dbKeys = [$offset + 1];
+                    if (array_key_exists($offset + 1, $db)) {
+                        $dbKeys = [$offset + 1];
+                    } else {
+                        $dbKeys = [];
+                    }
                     break;
 
                 case 2:
@@ -180,15 +197,24 @@ if (!function_exists('p')) {
 if (!function_exists('d')) {
     function d(mixed ...$vars): never
     {
-        pp(func_get_args(), true, null, 1);
+        pp(func_get_args(), Debug::getDefaultDisplayDebugBacktraceDD(), null, 1);
         exit;
     }
 }
 
 if (!function_exists('dd')) {
-    function dd(array $varsArray, int $displayDebugBacktrace = 0, ?string $tag = null, int $offset = 0, ?string $mode = null): never
-    {
-        pp($varsArray, $displayDebugBacktrace, $tag, $offset, $mode);
+    function dd(
+        array $varsArray,
+        ?int $displayDebugBacktrace = null,
+        ?string $tag = null,
+        int $offset = 0,
+        ?string $mode = null,
+    ): never {
+        if (is_null($displayDebugBacktrace)) {
+            $displayDebugBacktrace = Debug::getDefaultDisplayDebugBacktraceDD();
+        }
+
+        pp($varsArray, $displayDebugBacktrace, $tag, $offset + 1, $mode);
         exit;
     }
 }
