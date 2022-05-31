@@ -36,6 +36,7 @@ if (!function_exists('pp')) {
         ?string $tag = null,
         int $offset = 0,
         ?string $mode = null,
+        bool $explicit_var = true,
     ): void {
         if (is_null($displayDebugBacktrace)) {
             $displayDebugBacktrace = Debug::getDefaultDisplayDebugBacktracePP();
@@ -167,7 +168,9 @@ if (!function_exists('pp')) {
             }
         }
 
-        $varsArray = array_map(fn ($a) => explicit_var($a), $varsArray);
+        if ($explicit_var) {
+            $varsArray = array_map(fn ($a) => explicit_var($a), $varsArray);
+        }
 
         switch ($mode) {
             case 'html':
@@ -209,12 +212,13 @@ if (!function_exists('dd')) {
         ?string $tag = null,
         int $offset = 0,
         ?string $mode = null,
+        bool $explicit_var = true,
     ): never {
         if (is_null($displayDebugBacktrace)) {
             $displayDebugBacktrace = Debug::getDefaultDisplayDebugBacktraceDD();
         }
 
-        pp($varsArray, $displayDebugBacktrace, $tag, $offset + 1, $mode);
+        pp($varsArray, $displayDebugBacktrace, $tag, $offset + 1, $mode, $explicit_var);
         exit;
     }
 }
