@@ -259,11 +259,15 @@ class Debug
         $mode = isset($options['mode']) && self::verifyMode($options['mode']) ? $options['mode'] : self::getMode();
         $tag = isset($options['tag']) && self::verifyTag($options['tag']) ? $options['tag'] : null;
 
-        $displayDebugBacktrace = isset($options['displayDebugBacktrace']) && self::verifyDisplayDebugBacktrace($options['displayDebugBacktrace']) ? $options['displayDebugBacktrace'] : self::getDisplayDebugBacktracePP();
-        $offset = isset($options['offset']) && self::verifyOffset($options['offset']) ? $options['offset'] : 0;
-        $offset+= self::$offset;
-        self::$offset = 0;
-        $backtrace = self::getDisplayDebugBacktrace($displayDebugBacktrace, $offset);
+        if (isset($options['backtrace']) && is_string($options['backtrace'])) {
+            $backtrace = [htmlspecialchars($options['backtrace'])];
+        } else {
+            $displayDebugBacktrace = isset($options['displayDebugBacktrace']) && self::verifyDisplayDebugBacktrace($options['displayDebugBacktrace']) ? $options['displayDebugBacktrace'] : self::getDisplayDebugBacktracePP();
+            $offset = isset($options['offset']) && self::verifyOffset($options['offset']) ? $options['offset'] : 0;
+            $offset+= self::$offset;
+            self::$offset = 0;
+            $backtrace = self::getDisplayDebugBacktrace($displayDebugBacktrace, $offset);
+        }
 
         if (!isset($options['explicit_var']) || $options['explicit_var']) {
             $vars = array_map(fn ($a) => Debug::explicit_var($a), $vars);
