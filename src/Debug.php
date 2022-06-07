@@ -278,7 +278,9 @@ class Debug
                 $colorBack = isset($options['colorBack']) && self::verifyColor($options['colorBack']) ? $options['colorBack'] : self::getColorBack();
                 $colorText = isset($options['colorText']) && self::verifyColor($options['colorText']) ? $options['colorText'] : self::getColorText();
                 $colorHigh = isset($options['colorHigh']) && self::verifyColor($options['colorHigh']) ? $options['colorHigh'] : self::getColorHigh();
-                self::ppHtml($vars, $tag, $backtrace, $colorBack, $colorText, $colorHigh);
+                $margin = isset($options['margin']) ? (bool) $options['margin'] : true;
+                $border = isset($options['border']) ? (bool) $options['border'] : true;
+                self::ppHtml($vars, $tag, $backtrace, $colorBack, $colorText, $colorHigh, $margin, $border);
                 break;
 
             case 'text':
@@ -321,13 +323,17 @@ class Debug
         string $colorBack,
         string $colorText,
         string $colorHigh,
+        bool $margin,
+        bool $border,
     ): void {
         $preStyle = [
             'background' => $colorBack,
             'color' => $colorText,
             'padding' => '1em',
             'white-space' => 'break-spaces',
-            'border' => 'dashed 1px ' . $colorHigh,
+            'border' => $border ? ('dashed 1px ' . $colorHigh) : 'none',
+            'margin-top' => $margin ? '1em' : '0',
+            'margin-bottom' => $margin ? '1em' : '0',
         ];
 
         $tagStyle = [
