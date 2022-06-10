@@ -12,6 +12,7 @@ if (!function_exists('explicit_var')) {
 if (!function_exists('p')) {
     function p(mixed ...$vars): void
     {
+        Debug::moreOffset();
         (new \ReflectionClass('Bokad\Helpers\Debug'))->getMethod('p')->invokeArgs(null, func_get_args());
     }
 }
@@ -19,6 +20,7 @@ if (!function_exists('p')) {
 if (!function_exists('pp')) {
     function pp(array $varsArray = [], array $options = []): void
     {
+        Debug::moreOffset();
         (new \ReflectionClass('Bokad\Helpers\Debug'))->getMethod('pp')->invokeArgs(null, func_get_args());
     }
 }

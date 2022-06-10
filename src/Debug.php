@@ -17,7 +17,7 @@ class Debug
 
     private const defaultDisplayDebugBacktracePP = 0;
     private const defaultDisplayDebugBacktraceD = 1;
-    private const defaultDisplayDebugBacktraceDD = 2;
+    private const defaultDisplayDebugBacktraceDD = 1;
     private static int $displayDebugBacktracePP;
     private static int $displayDebugBacktraceD;
     private static int $displayDebugBacktraceDD;
@@ -181,22 +181,13 @@ class Debug
             throw new \Exception('Invalid offset');
         }
 
-        if (isset($db[$offset]['file'])) {
-            $display[] = $db[$offset]['file'] . ':' . $db[$offset]['line'];
-            $display[] = '';
-        }
-
         switch ($displayDebugBacktrace) {
             case 1:
-                if (array_key_exists($offset + 1, $db)) {
-                    $dbKeys = [$offset + 1];
-                } else {
-                    $dbKeys = [];
-                }
+                $dbKeys = [$offset];
                 break;
 
             case 2:
-                $dbKeys = range($offset + 1, count($db) - 1);
+                $dbKeys = range($offset, count($db) - 1);
                 break;
 
             default:
@@ -251,6 +242,7 @@ class Debug
 
     public static function p(mixed ...$vars): void
     {
+        self::moreOffset();
         self::pp(func_get_args());
     }
 
@@ -264,7 +256,7 @@ class Debug
         } else {
             $displayDebugBacktrace = isset($options['displayDebugBacktrace']) && self::verifyDisplayDebugBacktrace($options['displayDebugBacktrace']) ? $options['displayDebugBacktrace'] : self::getDisplayDebugBacktracePP();
             $offset = isset($options['offset']) && self::verifyOffset($options['offset']) ? $options['offset'] : 0;
-            $offset+= self::$offset;
+            $offset+= self::$offset + 1;
             self::$offset = 0;
             $backtrace = self::getDisplayDebugBacktrace($displayDebugBacktrace, $offset);
         }
