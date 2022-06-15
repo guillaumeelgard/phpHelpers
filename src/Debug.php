@@ -205,7 +205,7 @@ class Debug
         return $display;
     }
 
-    public static function explicit_var(mixed $var): string
+    public static function explicit_var(mixed $var, bool $explicit): string
     {
         switch (gettype($var)) {
             case 'object':
@@ -213,11 +213,21 @@ class Debug
                 return print_r($var, true);
 
             case 'string':
-                return '(string ' . mb_strlen($var) . ') "' . $var . '"';
+                if ($explicit) {
+                    return '(string ' . mb_strlen($var) . ') "' . $var . '"';
+                } else {
+                    return $var;
+                }
+                break;
 
             case 'integer':
             case 'double':
-                return '(' . gettype($var) . ') ' . $var;
+                if ($explicit) {
+                    return '(' . gettype($var) . ') ' . $var;
+                } else {
+                    return $var;
+                }
+                break;
 
             case 'boolean':
                 return '(boolean) ' . ($var ? 'true' : 'false');
@@ -261,9 +271,7 @@ class Debug
             $backtrace = self::getDisplayDebugBacktrace($displayDebugBacktrace, $offset);
         }
 
-        if (!isset($options['explicit_var']) || $options['explicit_var']) {
-            $vars = array_map(fn ($a) => Debug::explicit_var($a), $vars);
-        }
+        $vars = array_map(fn ($a) => Debug::explicit_var($a, !isset($options['explicit_var']) || $options['explicit_var']), $vars);
 
         switch ($mode) {
             case 'html':
