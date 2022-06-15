@@ -5,7 +5,7 @@ use Bokad\Helpers\Debug;
 if (!function_exists('explicit_var')) {
     function explicit_var(mixed $var): string
     {
-        return Debug::explicit_var($var);
+        return Debug::explicit_var($var, true);
     }
 }
 
